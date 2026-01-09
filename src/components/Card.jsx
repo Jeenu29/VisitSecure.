@@ -32,7 +32,7 @@ export default function Card({ title, text, number, image, className }) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
     return (
-        <div ref={cardRef} style={style} className={`h-[400px] w-[300px] transition-transform duration-300 ease-out shrink-0 relative rounded-t-2xl p-6 mx-6 my-2 bg-white/50 border shadow-lg ${className}`}>
+        <div ref={cardRef} style={style} className={`h-[400px] w-[300px] transition-transform duration-300 ease-out shrink-0 relative rounded-t-2xl p-6 mx-6 my-2 bg-white/50 border ${className}`}>
             <span className="absolute left-6 top-6 h-[30px] w-[30px] rounded-full bg-white flex items-center justify-center border text-sm font-semibold">{number}</span>
             <div className="mt-14 space-y-2">
                 <h3 className="text-xl font-bold uppercase">{title}</h3>

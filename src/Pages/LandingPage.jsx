@@ -14,12 +14,67 @@ export default function LandingPage() {
     const [x, setX] = useState(0);
     const sectionRef = useRef(null);
     const trackRef = useRef(null);
+    let delay = 0;
+    const [startSecurityAnim, setStartSecurityAnim] = useState(false);
+    const securityRef = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setStartSecurityAnim(true);
+                    observer.disconnect(); // run only once
+                }
+            },
+            { threshold: 0.3 } // 30% visible
+        );
+
+        if (securityRef.current) {
+            observer.observe(securityRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+
+    const next = (text) => {
+        const current = delay;
+        delay += text.length * 0.01 + 0.4;
+        return current;
+    }
+
+    const items = [
+        {
+            title: "Identity Verification",
+            text: "Live selfie verification confirms real visitor identity.",
+            color: "#ffc4ff9f",
+            textcolor: "#763a76ff"
+        },
+        {
+            title: "Host-Approved Access",
+            text: "Visitors enter only after host approval.",
+            color: "#e2eafc9f",
+            textcolor: "#3c5285ff",
+        },
+        {
+            title: "Time-Bound Passes",
+            text: "QR passes expire automatically after the visit.",
+            color: "#bdd2999f",
+            textcolor: "#4d7a00ff",
+        },
+        {
+            title: "Audit Logs",
+            text: "Every entry is logged in real time.",
+            color: "#baa8d69f",
+            textcolor: "#482d73ff",
+        },
+    ];
 
     const taglines = [
         "Smarter visits. Safer spaces.",
         "Security that starts before the gate.",
         "Access granted — the smart way.",
-        "Your gate just got smarter.",
+        "Trust & Security at Every Step.",
     ];
 
     useEffect(() => {
@@ -59,7 +114,7 @@ export default function LandingPage() {
 
 
     return (
-        <div className=" min-h-screen
+        <div className=" min-h-screen font-[Nunito]
   bg-[linear-gradient(120deg,#738fbd,#d2b3db,#dbd6df,#db88a4,#cc8eb1)]
   animate-gradient">
             <div className=" w-full flex justify-center">
@@ -76,7 +131,7 @@ export default function LandingPage() {
             <div className="max-w-6xl mx-auto px-6 mt-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     <div className={`transition-all  duration-900 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} `}>
-                        <h1 className={`font-bold text-3xl lg:text-4xl leading-tight text-[#9673d2]`}>
+                        <h1 className={`text-3xl lg:text-4xl leading-tight font-[Merriweather]`}>
                             <AnimatedText text="Welcome to VisitSecure." />
                         </h1>
                         <p className="text-md mt-4" key={index}>
@@ -86,7 +141,7 @@ export default function LandingPage() {
                     </div>
                     <div className={`flex justify-center md:justify-end transition-all ease-out delay-300 duration-900 ${loaded ? "opacity-100 translate-y-4" : "opacity-0 translate-y-0"}`}>
                         <div className="w-[350px] h-[400px] rounded-4xl bg-white/50 shadow-xl p-6 relative mb-20">
-                            <h3 className="text-lg font-semibold flex justify-center mb-4">Visitor card</h3>
+                            <h3 className="text-lg font-[Merriweather] flex justify-center mb-4">Visitor card</h3>
                             <img src="user.png" className={`object-contain w-full h-30 rounded-full mb-8 transition-all ease-out delay-300 duration-900 ${loaded ? "opacity-100 translate-y-4" : "opacity-0 translate-y-0"}`} />
                             <p className="ml-2 text-nd ">Name: Jeenu Bishnoi<br />
                                 Visiting: CS Dept<br />
@@ -99,8 +154,8 @@ export default function LandingPage() {
                 </div>
             </div>
             <section ref={sectionRef} className="relative bg-[#f8f9fe] h-[140vh]">
-                <div className="max-w-6xl mx-auto px-6 pt-24 py-4 text-center">
-                    <h1 className="text-3xl font-bold text-[#9673d2]">
+                <div className="max-w-6xl mx-auto px-6 pt-24 py-6 text-center">
+                    <h1 className="text-3xl font-[Merriweather]">
                         How VisitSecure. works
                     </h1>
                 </div>
@@ -118,6 +173,35 @@ export default function LandingPage() {
                         <Card title="Auto Deactivation" text="The visitor pass remains active for a limited time and expires automatically." number="5" image="5.png" className="text-[#f0cfde]" />
                     </div>
                 </div>
+            </section>
+            <section className="min-h-screen bg-white p-10 grid-bg" ref={securityRef}>
+                <div className="font-[Merriweather]">
+                    <h1 className="text-5xl">
+                        Security isn’t an add-on. <br /> It’s the foundation.
+                    </h1>
+                    <p className="my-4">VisitSecure is built with multi-layered verification and time-bound access to keep your premises safe—without slowing anyone down.</p>
+                </div>
+                {startSecurityAnim && (
+                    <div className="mt-20 p-3 grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-2 lg:gap-y-16 ">
+                        {items.map((item, i) => (
+                            <div key={i} style={{ backgroundColor: item.color }} className="rounded-xl p-6" >
+                                <h3 className="text-xl font-semibold">
+                                    <AnimatedText
+                                        text={item.title}
+                                        delay={next(item.title)}
+                                    />
+                                </h3>
+                                <p style={{ color: item.textcolor }} className="mt-2">
+                                    <AnimatedText
+                                        text={item.text}
+                                        delay={next(item.text)}
+                                    />
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
             </section>
         </div>
     );
