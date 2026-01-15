@@ -19,6 +19,8 @@ export default function Signup({ onClose }) {
                     handleClose();
                 }}>✕</button>
                 <h2 className="text-xl text-center mb-4">Welcome to <span className="font-[Merriweather]">VisitSecure.</span></h2>
+                <p className="pl-1 mb-1 text-sm">Name</p>
+                <input className="w-full border rounded-2xl px-4 py-2 text-sm mb-4" type="text" placeholder="Enter your name" />
                 <p className="pl-1 mb-1 text-sm">Email</p>
                 <input className="w-full border rounded-2xl px-4 py-2 text-sm mb-4" type="email" placeholder="Enter your email" />
                 <p className="pl-1 mb-1 text-sm">Password</p>
