@@ -23,10 +23,10 @@ export default function LandingPage() {
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setStartSecurityAnim(true);
-                    observer.disconnect(); // run only once
+                    observer.disconnect();
                 }
             },
-            { threshold: 0.3 } // 30% visible
+            { threshold: 0.3 }
         );
 
         if (securityRef.current) {
@@ -201,7 +201,6 @@ export default function LandingPage() {
                         ))}
                     </div>
                 )}
-
             </section>
         </div>
     );
