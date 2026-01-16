@@ -3,6 +3,7 @@ import Login from "../components/Login";
 import Signup from "../components/Signup";
 import Navbar from "./Navbar";
 import { Copy, Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
     const [showLogin, setShowLogin] = useState(false);
@@ -10,6 +11,7 @@ export default function Dashboard() {
     const code = "UX028HD";
     const [copied, setCopied] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const navigate = useNavigate();
 
 
     const visitorsToday = [
@@ -80,7 +82,7 @@ export default function Dashboard() {
                         </p>
                     </div>
                     <div className="grid grid-col-2 items-center p-2 gap-2">
-                        <button className="bg-white/80 text-[#9673d2] px-6 py-3 rounded-full hover:bg-[#9673d2] hover:text-white transition font-semibold border hover:translate-y-[-2px]">
+                        <button className="bg-white/80 text-[#9673d2] px-6 py-3 rounded-full hover:bg-[#9673d2] hover:text-white transition font-semibold border hover:translate-y-[-2px]" onClick={() => navigate("/pass")}>
                             Request a visit
                         </button>
                         <button className="bg-white/80 text-[#9673d2] px-6 py-3 rounded-full hover:bg-[#9673d2] hover:text-white transition font-semibold border hover:translate-y-[-2px]">
