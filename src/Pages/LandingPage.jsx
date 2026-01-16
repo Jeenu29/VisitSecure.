@@ -4,9 +4,10 @@ import Login from "../components/Login";
 import Signup from "../components/Signup";
 import AnimatedText from "../components/animatedtext";
 import Card from "../components/Card";
-
+import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
+    const navigate = useNavigate();
     const [index, setIndex] = useState(0);
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
@@ -137,7 +138,7 @@ export default function LandingPage() {
                         <p className="text-md mt-4" key={index}>
                             <AnimatedText text={taglines[index]} />
                         </p>
-                        <button className="bg-white/80 mt-8 text-[#9673d2] px-5 py-3 rounded-full hover:bg-[#9673d2] hover:text-white transition font-semibold border">Request a visit</button>
+                        <button className="bg-white/80 mt-8 text-[#9673d2] px-5 py-3 rounded-full hover:bg-[#9673d2] hover:text-white transition font-semibold border hover:translate-y-[-2px]" onClick={() => navigate("/pass")}>Request a visit</button>
                     </div>
                     <div className={`flex justify-center md:justify-end transition-all ease-out delay-300 duration-900 ${loaded ? "opacity-100 translate-y-4" : "opacity-0 translate-y-0"}`}>
                         <div className="w-[350px] h-[400px] rounded-4xl bg-white/50 shadow-xl p-6 relative mb-20">
