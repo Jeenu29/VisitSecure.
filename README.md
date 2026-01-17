@@ -1,4 +1,4 @@
-🚪 VisitSecure
+🚪
 VisitSecure is a smart, secure, and digital visitor management system designed for universities, offices, and gated organizations.
 It replaces manual entry registers with approval-based digital passes, identity verification, and automatic access control.
 
