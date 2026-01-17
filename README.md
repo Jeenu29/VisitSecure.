@@ -7,50 +7,73 @@ Because every visit deserves security.
 ✨ Why VisitSecure?
 
 Traditional visitor entry systems are:
+
 Manual and error-prone
+
 Easy to misuse
+
 Hard to track and audit
 
+
 VisitSecure solves this by providing:
+
 Secure digital visitor passes
+
 Host-controlled approvals
+
 Time-bound access
+
 
 A seamless, modern experience for both visitors and organizations
 
+
 🧠 How VisitSecure Works
 
-Visitor Request
+Visitor Request:
 A visitor submits a visit request with basic details and the host’s unique ID.
 
-Identity Verification
+Identity Verification:
 The visitor uploads a live selfie to ensure authenticity and prevent misuse.
 
-Host Approval
+Host Approval:
 The host receives a notification and can approve or reject the request instantly.
 
-Digital Pass Generation
+Digital Pass Generation:
 Once approved, a secure digital visitor pass is generated.
 
-Auto Deactivation
+Auto Deactivation:
 The pass automatically expires after a fixed time (e.g. 6 hours).
 
 🚀 Features
 
 🔐 Secure visitor approval workflow
+
 📸 Selfie-based identity verification
+
 🆔 Host identification via unique ID
+
 ⏱️ Time-bound visitor passes
+
 📱 Clean, modern UI
+
 ⚙️ Organization-agnostic (universities, offices, campuses)
 
+
 🛠️ Tech Stack
+
 Frontend:
+
 React (Vite)
+
 Tailwind CSS
+
 JavaScript
 
+
 Backend (planned / in progress):
+
 Django / Django REST Framework
+
 JWT Authentication
+
 Database (PostgreSQL / MySQL)
