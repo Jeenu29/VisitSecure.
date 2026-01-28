@@ -7,7 +7,7 @@ export default function Navbar({ onLoginClick, onSignupClick }) {
             <div className="h-full flex items-center justify-between px-4 sm:px-6">
                 <a href="/">
                     <img
-                        src="logo.png"
+                        src="/logo.png"
                         className="w-12 h-12 object-contain"
                         alt="logo"
                     />

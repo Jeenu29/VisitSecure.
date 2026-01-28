@@ -2,12 +2,14 @@ import { useState } from "react";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
 export default function Pass() {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
     const [hours, setHours] = useState(1);
     const [selfie, setSelfie] = useState(null);
+    const navigate = useNavigate();
 
     const increase = () => {
         if (hours < 6) setHours(hours + 1);
@@ -18,7 +20,7 @@ export default function Pass() {
     };
 
     return (
-        <div className="min-h-screen grid-bg p-6">
+        <div className="min-h-screen grid-bg p-6 font-[Nunito]">
             <div className="w-full flex justify-center">
                 <div className="w-full max-w-6xl mx-2 mb-6">
                     <Navbar
@@ -75,6 +77,7 @@ export default function Pass() {
                     <p className="text-sm text-gray-500 mt-1">
                         Pass will auto-expire after selected duration (max 6 hours)
                     </p>
+                    {/* from backend */}
                     <div>
                         <label className="block text-sm font-medium mb-2">
                             Visitor Selfie
@@ -95,7 +98,11 @@ export default function Pass() {
                     </div>
                     <button
                         type="submit"
-                        className="bg-[#9673d2] text-white px-6 py-3 rounded-full hover:scale-105 transition"
+                        className="bg-[#9673d2] text-white px-6 py-3 rounded-full hover:scale-105 transition" onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/pass/VS-29408");
+                            // from backend
+                        }}
                     >
                         Submit Request
                     </button>
