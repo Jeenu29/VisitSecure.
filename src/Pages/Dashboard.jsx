@@ -8,12 +8,12 @@ import { useNavigate } from "react-router-dom";
 export default function Dashboard() {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
-    const code = "UX028HD";
+    const code = "UX028HD"; //from backend
     const [copied, setCopied] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const navigate = useNavigate();
 
-
+    //from backend
     const visitorsToday = [
         {
             id: 1,
@@ -85,7 +85,7 @@ export default function Dashboard() {
                         <button className="bg-white/80 text-[#9673d2] px-6 py-3 rounded-full hover:bg-[#9673d2] hover:text-white transition font-semibold border hover:translate-y-[-2px]" onClick={() => navigate("/pass")}>
                             Request a visit
                         </button>
-                        <button className="bg-white/80 text-[#9673d2] px-6 py-3 rounded-full hover:bg-[#9673d2] hover:text-white transition font-semibold border hover:translate-y-[-2px]">
+                        <button className="bg-white/80 text-[#9673d2] px-6 py-3 rounded-full hover:bg-[#9673d2] hover:text-white transition font-semibold border hover:translate-y-[-2px]" onClick={() => navigate("/history")}>
                             Full visitor history
                         </button>
                     </div>

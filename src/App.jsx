@@ -4,6 +4,7 @@ import LandingPage from './Pages/LandingPage';
 import Dashboard from './Pages/Dashboard';
 import RequestPass from './Pages/RequestPass';
 import Pass from './Pages/Pass';
+import VisitorHistory from './Pages/VisitorHistory';
 
 function App() {
 
@@ -11,8 +12,9 @@ function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/pass/:token" element={<Pass />} />
+      <Route path="/pass/:passId" element={<Pass />} />
       <Route path="/pass" element={<RequestPass />} />
+      <Route path='/history' element={<VisitorHistory />} />
     </Routes>
   );
 }
