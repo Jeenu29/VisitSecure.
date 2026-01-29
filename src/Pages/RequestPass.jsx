@@ -20,18 +20,15 @@ export default function Pass() {
     };
 
     return (
-        <div className="min-h-screen grid-bg p-6 font-[Nunito]">
-            <div className="w-full flex justify-center">
-                <div className="w-full max-w-6xl mx-2 mb-6">
-                    <Navbar
-                        onLoginClick={() => setShowLogin(true)}
-                        onSignupClick={() => setShowSignup(true)}
-                    />
-                </div>
-            </div>
+        <div className="min-h-screen grid-bg p-6">
+            <Navbar
+                mode="static"
+                onLoginClick={() => setShowLogin(true)}
+                onSignupClick={() => setShowSignup(true)}
+            />
             {showLogin && <Login onClose={() => setShowLogin(false)} />}
             {showSignup && <Signup onClose={() => setShowSignup(false)} />}
-            <div className="max-w-3xl mx-auto bg-[#f9ffcfdd] backdrop-blur p-8 rounded-2xl shadow">
+            <div className="max-w-3xl mx-auto bg-[#f9ffcfdd] backdrop-blur p-8 rounded-2xl shadow mt-24">
                 <h1 className="text-3xl font-bold text-[#9673d2] font-[Merriweather] mb-6">
                     Request a Visitor Pass
                 </h1>

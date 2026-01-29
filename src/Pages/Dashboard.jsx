@@ -47,17 +47,18 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen grid-bg font-[Nunito] relative overflow-hidden">
-            <div className="w-full flex justify-center">
-                <div className="w-full max-w-6xl mx-2">
-                    <Navbar
-                        onLoginClick={() => setShowLogin(true)}
-                        onSignupClick={() => setShowSignup(true)}
-                    />
-                </div>
-            </div>
-            {showLogin && <Login onClose={() => setShowLogin(false)} />}
-            {showSignup && <Signup onClose={() => setShowSignup(false)} />}
-            <div className="max-w-6xl mx-auto p-6">
+            <Navbar
+                mode="static"
+                onLoginClick={() => setShowLogin(true)}
+                onSignupClick={() => setShowSignup(true)}
+            />
+            {showLogin && (
+                <Login onClose={() => setShowLogin(false)} />
+            )}
+            {showSignup && (
+                <Signup onClose={() => setShowSignup(false)} />
+            )}
+            <div className="max-w-6xl mx-auto p-6 pt-30">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="bg-[#f9ffcfdd] p-6 rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:translate-y-[-2px] transition-transform duration-300">
                         <p className="text-sm mb-2">Your Visit Code</p>

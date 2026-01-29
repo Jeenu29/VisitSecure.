@@ -39,17 +39,14 @@ export default function VisitorHistory() {
 
     return (
         <div className="min-h-screen grid-bg font-[Nunito] relative overflow-hidden">
-            <div className="w-full flex justify-center">
-                <div className="w-full max-w-6xl mx-2">
-                    <Navbar
-                        onLoginClick={() => setShowLogin(true)}
-                        onSignupClick={() => setShowSignup(true)}
-                    />
-                </div>
-            </div>
+            <Navbar
+                mode="static"
+                onLoginClick={() => setShowLogin(true)}
+                onSignupClick={() => setShowSignup(true)}
+            />
             {showLogin && <Login onClose={() => setShowLogin(false)} />}
             {showSignup && <Signup onClose={() => setShowSignup(false)} />}
-            <div className="max-w-6xl mx-auto bg-white/80 backdrop-blur p-6 rounded-2xl shadow mt-10">
+            <div className="max-w-6xl mx-auto bg-white/80 backdrop-blur p-6 rounded-2xl shadow mt-30">
                 <h1 className="text-3xl font-[Merriweather] mb-6">
                     Visitor History
                 </h1>

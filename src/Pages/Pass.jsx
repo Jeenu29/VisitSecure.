@@ -59,17 +59,14 @@ export default function Pass() {
 
     return (
         <div className="min-h-screen grid-bg font-[Nunito] relative overflow-hidden">
-            <div className="w-full flex justify-center">
-                <div className="w-full max-w-6xl mx-2">
-                    <Navbar
-                        onLoginClick={() => setShowLogin(true)}
-                        onSignupClick={() => setShowSignup(true)}
-                    />
-                </div>
-            </div>
+            <Navbar
+                mode="static"
+                onLoginClick={() => setShowLogin(true)}
+                onSignupClick={() => setShowSignup(true)}
+            />
             {showLogin && <Login onClose={() => setShowLogin(false)} />}
             {showSignup && <Signup onClose={() => setShowSignup(false)} />}
-            <div className="flex justify-center items-center mt-20">
+            <div className="flex justify-center items-center mt-40">
                 <div
                     className={`relative w-[360px] rounded-3xl p-6 shadow-2xl transition-transform
                     ${isActive ? "bg-white/90 card-pop" : "bg-gray-100 grayscale"}
