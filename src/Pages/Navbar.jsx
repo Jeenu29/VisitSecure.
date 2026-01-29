@@ -1,9 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
-export default function Navbar({ onLoginClick, onSignupClick }) {
+export default function Navbar({ onLoginClick, mode = "scroll", onSignupClick }) {
     const [open, setOpen] = useState(false);
+    const [visible, setVisible] = useState(true);
+    const lastScrollY = useRef(0);
+    const hideTimeout = useRef(null);
+
+    useEffect(() => {
+        // 🔒 STATIC MODE → NO SCROLL LOGIC AT ALL
+        if (mode === "static") {
+            setVisible(true);
+            return;
+        }
+
+        const handleScroll = () => {
+            const currentY = window.scrollY;
+
+            // 🟢 Always visible at top
+            if (currentY < 50) {
+                setVisible(true);
+                clearTimeout(hideTimeout.current);
+            }
+            // ⬆️ scrolling up
+            else if (currentY < lastScrollY.current) {
+                setVisible(true);
+                clearTimeout(hideTimeout.current);
+
+                // ⏳ auto-hide after 2s
+                hideTimeout.current = setTimeout(() => {
+                    setVisible(false);
+                }, 2000);
+            }
+            // ⬇️ scrolling down
+            else {
+                setVisible(false);
+                clearTimeout(hideTimeout.current);
+            }
+
+            lastScrollY.current = currentY;
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            clearTimeout(hideTimeout.current);
+        };
+    }, [mode]);
+
     return (
-        <nav className="bg-[#ccaae6] h-14 text-white rounded-full mt-4 shadow-xl z-50">
+        <nav className={`bg-[#ccaae6] h-14 text-white rounded-full mt-4 shadow-xl z-50 fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-6xl transition-transform duration-300
+      ${visible ? "translate-y-0" : "-translate-y-24"}`}>
             <div className="h-full flex items-center justify-between px-4 sm:px-6">
                 <a href="/">
                     <img

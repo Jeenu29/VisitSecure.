@@ -12,6 +12,9 @@
   background-size: 40px 40px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 
 @keyframes gradientMove {
   0% {
