@@ -208,7 +208,7 @@ export default function LandingPage() {
             {showSignup && (
                 <Signup onClose={() => setShowSignup(false)} />
             )}
-            <section className="pt-20 bg-[linear-gradient(120deg,#738fbd,#d2b3db,#dbd6df,#db88a4,#cc8eb1)] animate-gradient">
+            <section className="relative overflow-hidden pt-20 bg-[linear-gradient(120deg,#738fbd,#d2b3db,#dbd6df,#db88a4,#cc8eb1)] animate-gradient">
                 <div className="max-w-6xl mx-auto px-6 mt-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                         <div className={`transition-all  duration-900 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"} `}>
@@ -234,6 +234,7 @@ export default function LandingPage() {
                         </div>
                     </div>
                 </div>
+                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-[#f8f9fe]" />
             </section>
             <section id="howItWorks" ref={howItWorksRef} className="relative bg-[#f8f9fe] h-[140vh]">
                 <div className="max-w-6xl mx-auto px-6 pt-24 py-6 text-center">
@@ -346,17 +347,19 @@ export default function LandingPage() {
                     </p>
                 </div>
                 <div
-                    className="absolute bottom-[-60px] left-1/2 -translate-x-1/2
-             text-[10rem] font-[Inter] font-extrabold
+                    className="absolute bottom-[-20px] md:bottom-[-63px] left-1/2 -translate-x-1/2
+             text-[3.5rem] md:text-[10rem] font-[Inter] font-extrabold
              tracking-[0.04em]
              text-transparent
              pointer-events-none select-none"
                     style={{
-                        WebkitTextStroke: "1.25px rgba(150, 115, 210, 0.25)",
+                        WebkitTextStroke: "1.25px rgba(150, 115, 210, 0.53)",
                     }}
                 >
                     VISITSECURE.
                 </div>
+                <div className="pointer-events-none absolute bottom-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-white" />
+
             </footer>
         </div>
     );
