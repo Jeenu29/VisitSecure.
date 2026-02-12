@@ -57,23 +57,3 @@ The pass automatically expires after a fixed time (e.g. 6 hours).
 📱 Clean, modern UI
 
 ⚙️ Organization-agnostic (universities, offices, campuses)
-
-
-🛠️ Tech Stack
-
-Frontend:
-
-React (Vite)
-
-Tailwind CSS
-
-JavaScript
-
-
-Backend (planned / in progress):
-
-Django / Django REST Framework
-
-JWT Authentication
-
-Database (PostgreSQL / MySQL)
