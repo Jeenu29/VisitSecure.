@@ -18,34 +18,36 @@ export default function Pass() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            alert("Please login first ❌");
-            return;
-        }
-
-        const formData = {
-            name: "test", // replace later
-        };
+        e.preventDefault(); // 🔴 important
 
         try {
-            const res = await fetch("http://localhost:8080/api/visitors", {
+            const res = await fetch("http://localhost:8080/api/request-visit", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
+                    "Content-Type": "application/json"
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    name,
+                    email,
+                    phone,
+                    purpose,
+                    hostCode
+                })
             });
-            console.log("TOKEN:", token);
-            const data = await res.text();
-            console.log(data);
 
-        } catch (err) {
-            console.error(err);
+            const data = await res.text();
+
+            if (res.ok) {
+                console.log("Success:", data);
+                alert("Request sent to host ✅");
+            } else {
+                console.error("Error:", data);
+                alert("Failed to send request ❌");
+            }
+
+        } catch (error) {
+            console.error("Network error:", error);
+            alert("Server not reachable ❌");
         }
     };
 
@@ -62,7 +64,7 @@ export default function Pass() {
                 <h1 className="text-3xl font-bold text-[#9673d2] font-[Merriweather] mb-6">
                     Request a Visitor Pass
                 </h1>
-                <form className="space-y-4" onSubmit={handleSubmit}>
+                <form className="space-y-4">
                     <input
                         type="text"
                         placeholder="Visitor Name"

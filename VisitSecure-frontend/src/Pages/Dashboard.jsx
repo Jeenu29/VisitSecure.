@@ -1,17 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import Navbar from "./Navbar";
 import { Copy, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 
 export default function Dashboard() {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
-    const code = "UX028HD"; //from backend
     const [copied, setCopied] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [user, setUser] = useState(null);
+    const [visitors, setVisitors] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [hostCode, setHostCode] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        let code = localStorage.getItem("hostCode");
+        setHostCode(code);
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+            setUser(currentUser);
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     //from backend
     const visitorsToday = [
@@ -29,9 +47,14 @@ export default function Dashboard() {
     ];
 
     const handleCopy = async () => {
-        await navigator.clipboard.writeText(code);
+        await navigator.clipboard.writeText(hostCode);
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/");
     };
 
     return (
@@ -54,7 +77,7 @@ export default function Dashboard() {
 
                         <div className="flex items-center justify-between">
                             <h2 className="text-3xl font-bold text-[#9673d2] font-[Merriweather]">
-                                {code}
+                                {hostCode}
                             </h2>
                             <button
                                 onClick={handleCopy}

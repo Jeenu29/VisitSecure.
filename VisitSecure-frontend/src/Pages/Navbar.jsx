@@ -1,10 +1,19 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({ onLoginClick, mode = "scroll", onSignupClick }) {
     const [open, setOpen] = useState(false);
     const [visible, setVisible] = useState(true);
     const lastScrollY = useRef(0);
     const hideTimeout = useRef(null);
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+    const isLoggedIn = !!token;
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/");
+    };
 
     useEffect(() => {
         if (mode === "static") {
@@ -52,16 +61,73 @@ export default function Navbar({ onLoginClick, mode = "scroll", onSignupClick })
                     />
                 </a>
                 <div className="hidden sm:flex items-center gap-6 ml-auto font-semibold">
-                    <a href="#" className="hover:text-[#8a6fc7] transition" onClick={onLoginClick} >Log In</a>
-                    <a href="#" className="hover:text-[#8a6fc7] transition" onClick={onSignupClick}>Sign Up</a>
+                    {isLoggedIn ? (
+                        <>
+                            <button
+                                onClick={handleLogout}
+                                className="hover:text-[#8a6fc7] transition"
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <a
+                                href="#"
+                                className="hover:text-[#8a6fc7] transition"
+                                onClick={onLoginClick}
+                            >
+                                Log In
+                            </a>
+                            <a
+                                href="#"
+                                className="hover:text-[#8a6fc7] transition"
+                                onClick={onSignupClick}
+                            >
+                                Sign Up
+                            </a>
+                        </>
+                    )}
                 </div>
                 <button className="sm:hidden ml-auto text-sm font-medium hover:text-[#8a6fc7]" onClick={() => setOpen(!open)}>
                     Menu
                 </button>
                 <div className={`sm:hidden absolute z-50 top-16 right-4 w-40 bg-white text-[#ccaae6] rounded-xl shadow-xl overflow-hidden transition-all duration-300 ${open ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"} `} >
-                    <button className="w-full px-4 py-3 text-left hover:text-[#8a6fc7]" onClick={() => { onLoginClick(); setOpen(false); }}>Log In</button>
-                    <hr />
-                    <button className="w-full px-4 py-3 text-left hover:text-[#8a6fc7]" onClick={() => { onSignupClick(); setOpen(false); }}>Sign Up</button>
+                    {isLoggedIn ? (
+                        <>
+                            <button
+                                className="w-full px-4 py-3 text-left hover:text-[#8a6fc7]"
+                                onClick={() => {
+                                    handleLogout();
+                                    setOpen(false);
+                                }}
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                className="w-full px-4 py-3 text-left hover:text-[#8a6fc7]"
+                                onClick={() => {
+                                    onLoginClick();
+                                    setOpen(false);
+                                }}
+                            >
+                                Log In
+                            </button>
+                            <hr />
+                            <button
+                                className="w-full px-4 py-3 text-left hover:text-[#8a6fc7]"
+                                onClick={() => {
+                                    onSignupClick();
+                                    setOpen(false);
+                                }}
+                            >
+                                Sign Up
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
         </nav>

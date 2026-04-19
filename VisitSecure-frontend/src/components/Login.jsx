@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ onClose }) {
     const [closing, setClosing] = useState(false);
@@ -15,6 +16,8 @@ export default function Login({ onClose }) {
     const [resetEmail, setResetEmail] = useState("");
     const [resetMsg, setResetMsg] = useState("");
     const [resetError, setResetError] = useState("");
+
+    const navigate = useNavigate();
 
     const handleForgotPassword = async () => {
         setResetMsg("");
@@ -51,14 +54,23 @@ export default function Login({ onClose }) {
 
         try {
             setLoading(true);
-
             const userCred = await signInWithEmailAndPassword(auth, email, password);
 
-            const token = await userCred.user.getIdToken(true);
+            const token = await userCred.user.getIdToken();
 
-            localStorage.setItem("token", token);
+            localStorage.setItem("token", token); // MUST
 
-            // 👉 later we'll redirect to dashboard
+            const res = await fetch("http://localhost:8080/api/auth/register", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const hostCode = await res.text();
+            localStorage.setItem("hostCode", hostCode);
+
+            navigate("/dashboard");
             onClose();
 
         } catch (error) {
@@ -83,6 +95,7 @@ export default function Login({ onClose }) {
         setClosing(true);
         setTimeout(onClose, 250);
     }
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className={`absolute inset-0 bg-black/60 ${closing ? "animate-fade-out" : "animate-fade-in"}`} onClick={() => {
