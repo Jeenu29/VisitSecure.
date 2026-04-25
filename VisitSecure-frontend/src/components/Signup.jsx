@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup({ onClose }) {
     const [closing, setClosing] = useState(false);
@@ -14,6 +15,7 @@ export default function Signup({ onClose }) {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const navigate = useNavigate();
 
     const handleClose = () => {
         setClosing(true);
@@ -56,10 +58,18 @@ export default function Signup({ onClose }) {
             const token = await userCred.user.getIdToken(true);
 
             localStorage.setItem("token", token);
+            const res = await fetch("http://localhost:8080/api/auth/register", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
 
-            setTimeout(() => {
-                onClose();
-            }, 1500);
+            const hostCode = await res.text();
+            localStorage.setItem("hostCode", hostCode);
+
+            navigate("/dashboard");
+            onClose();
 
         } catch (error) {
             console.error(error);

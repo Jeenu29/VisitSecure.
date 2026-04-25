@@ -58,7 +58,7 @@ export default function Login({ onClose }) {
 
             const token = await userCred.user.getIdToken();
 
-            localStorage.setItem("token", token); // MUST
+            localStorage.setItem("token", token);
 
             const res = await fetch("http://localhost:8080/api/auth/register", {
                 method: "POST",
@@ -82,6 +82,8 @@ export default function Login({ onClose }) {
                 setError("Incorrect password");
             } else if (error.code === "auth/invalid-email") {
                 setError("Invalid email");
+            } else if (error.code === "auth/invalid-credential") {
+                setError("Invalid password or email")
             } else {
                 setError("Login failed. Try again");
             }

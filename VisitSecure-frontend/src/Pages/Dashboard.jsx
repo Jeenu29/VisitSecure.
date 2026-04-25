@@ -31,20 +31,23 @@ export default function Dashboard() {
         return () => unsubscribe();
     }, []);
 
-    //from backend
-    const visitorsToday = [
-        {
-            id: 1,
-            name: "Anita Sharma",
-            intime: "10:30 AM",
-            outime: "11:30 AM",
-            purpose: "Meeting",
-            status: "Not Approved",
-            img: "user.png",
-            contact: "9292839201",
-            code: "+91",
-        },
-    ];
+    useEffect(() => {
+        fetchTodayVisitors();
+    }, []);
+
+    const fetchTodayVisitors = async () => {
+        try {
+            const hostCode = localStorage.getItem("hostCode");
+            const res = await (`http://localhost:8080/api/visitor/today?hostCode=${hostCode}`);;
+            const data = await res.json();
+
+            setVisitors(data);
+            setLoading(false);
+        } catch (err) {
+            setError("Failed to fetch visitors");
+            setLoading(false);
+        }
+    };
 
     const handleCopy = async () => {
         await navigator.clipboard.writeText(hostCode);
@@ -52,9 +55,23 @@ export default function Dashboard() {
         setTimeout(() => setCopied(false), 1500);
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/");
+    const getDate = (ts) => {
+        if (!ts) return "No date";
+        return new Date(ts.seconds * 1000).toLocaleDateString();
+    };
+
+    const getTime = (ts) => {
+        if (!ts) return "No time";
+        return new Date(ts.seconds * 1000).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+        });
+    };
+
+    const formatPhone = (phone) => {
+        if (!phone) return "No phone";
+        return `+91 ${phone.slice(0, 5)} ${phone.slice(5)}`;
     };
 
     return (
@@ -105,71 +122,90 @@ export default function Dashboard() {
                 </div>
                 <div className="py-8 px-2 my-2">
                     <h1 className="text-2xl font-[Merriweather] py-4">Visitors Today</h1>
-                    {visitorsToday.length > 0 ? (
+                    {loading ? (
+                        <p className="text-center">Loading...</p>
+                    ) : visitors.length > 0 ? (
                         <div className="space-y-4">
-                            {visitorsToday.map((visitor) => (
-                                <div
-                                    key={visitor.id}
-                                    className="bg-white/70 backdrop-blur p-4 rounded-xl shadow-sm flex justify-between items-center"
-                                >
-                                    <div className="flex gap-4">
-                                        <div>
-                                            <img
-                                                src={visitor.img}
-                                                className="w-[50px] object-contain cursor-pointer hover:scale-105 transition"
-                                                onClick={() => setSelectedImage(visitor.img)}
-                                            />
-                                        </div>
-                                        <div>
-                                            <p className="font-semibold text-gray-800">
-                                                {visitor.name}
-                                            </p>
-                                            <p className="text-sm text-gray-500">
-                                                {visitor.code} {visitor.contact} • {visitor.purpose} • {visitor.intime} - {visitor.outime}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <span
-                                        className={`text-xs px-3 py-1 ml-2 rounded-full font-medium text-center
-              ${visitor.status === "Inside"
-                                                ? "bg-green-100 text-green-700"
-                                                : visitor.status === "Approved"
-                                                    ? "bg-green-100 text-green-700"
-                                                    : "bg-red-100 text-red-600"
-                                            }
-            `}
-                                    >
-                                        {visitor.status}
-                                    </span>
-                                </div>
-                            ))}
-                            {selectedImage && (
-                                <div
-                                    className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center"
-                                    onClick={() => setSelectedImage(null)}
-                                >
-                                    <div
-                                        className="relative"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <img
-                                            src={selectedImage}
-                                            className="max-w-[90vw] max-h-[90vh] rounded-2xl shadow-2xl"
-                                        />
+                            {visitors.map((visitor) => {
 
-                                        <button
-                                            className="absolute -top-3 -right-3 bg-white text-black rounded-full w-8 h-8 flex items-center justify-center shadow hover:bg-gray-200"
-                                            onClick={() => setSelectedImage(null)}
+                                const statusText = visitor.entered
+                                    ? "Inside"
+                                    : visitor.status === "APPROVED"
+                                        ? "Approved"
+                                        : visitor.status === "REJECTED"
+                                            ? "Rejected"
+                                            : "Pending";
+
+                                const statusStyle =
+                                    visitor.entered || visitor.status === "APPROVED"
+                                        ? "bg-green-100 text-green-700"
+                                        : visitor.status === "REJECTED"
+                                            ? "bg-red-100 text-red-600"
+                                            : "bg-yellow-100 text-yellow-700";
+
+                                return (
+                                    <div
+                                        key={visitor.id}
+                                        className="bg-white/70 backdrop-blur p-4 rounded-xl shadow-sm flex justify-between items-center"
+                                    >
+                                        <div className="flex gap-4">
+                                            <div>
+                                                <img
+                                                    src={visitor.selfieUrl || "user.png"}
+                                                    className="w-[50px] rounded-2xl object-contain cursor-pointer hover:scale-105 transition"
+                                                    onClick={() => setSelectedImage(visitor.selfieUrl)}
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <div>
+                                                    <p className="font-semibold text-gray-800">
+                                                        {visitor.name} • {getDate(visitor.visitTimeTs)}
+                                                    </p>
+
+                                                    <p className="text-sm text-gray-500">
+                                                        {formatPhone(visitor.phone) || "No phone"} • {visitor.purpose} •{" "}
+                                                        {getTime(visitor.visitTimeTs)} - {getTime(visitor.expiresAt)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <span
+                                            className={`text-xs px-3 py-1 ml-2 rounded-full font-medium ${statusStyle}`}
                                         >
-                                            ✕
-                                        </button>
+                                            {statusText}
+                                        </span>
                                     </div>
-                                </div>
-                            )}
+                                );
+                            })}
                         </div>
                     ) : (
                         <div className="bg-white/60 p-6 rounded-xl text-center text-gray-500 backdrop-blur shadow-sm">
                             No visitors today
+                        </div>
+                    )}
+                    {selectedImage && (
+                        <div
+                            className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            <div
+                                className="relative"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <img
+                                    src={selectedImage}
+                                    className="max-w-[90vw] max-h-[90vh] rounded-2xl shadow-2xl"
+                                />
+
+                                <button
+                                    className="absolute -top-3 -right-3 bg-white text-black rounded-full w-8 h-8 flex items-center justify-center shadow hover:bg-gray-200"
+                                    onClick={() => setSelectedImage(null)}
+                                >
+                                    ✕
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

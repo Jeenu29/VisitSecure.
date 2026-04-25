@@ -2,40 +2,56 @@ import Navbar from "./Navbar";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function VisitorHistory() {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [visitors, setVisitors] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    //from backend
-    const visitors = [
-        {
-            id: "VS-29408",
-            name: "Anita Sharma",
-            purpose: "Project Discussion",
-            date: "2026-01-26",
-            intime: "10:30 AM",
-            outime: "11:30 AM",
-            status: "Approved",
-            img: "/user.png",
-            contact: "3637282910",
-            code: "+91",
-        },
-        {
-            id: "VS-29409",
-            name: "Rahul Verma",
-            purpose: "Interview",
-            date: "2026-01-27",
-            intime: "12:30 AM",
-            outime: "2:30 AM",
-            status: "Not Approved",
-            img: "/user.png",
-            contact: "7289103792",
-            code: "+91",
-        },
-    ];
+    useEffect(() => {
+        fetchVisitors();
+    }, []);
+
+    const fetchVisitors = async () => {
+        try {
+            const hostCode = localStorage.getItem("hostCode");
+            const res = await fetch(`http://localhost:8080/api/visitor/history?hostCode=${hostCode}`);
+            const data = await res.json();
+
+            setVisitors(data);
+            setLoading(false);
+        } catch (err) {
+            setError("Failed to fetch visitors");
+            setLoading(false);
+        }
+    };
+
+    const getDate = (ts) => {
+        if (!ts) return "No date";
+        return new Date(ts.seconds * 1000).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+        });
+    };
+
+    const getTime = (ts) => {
+        if (!ts) return "No time";
+        return new Date(ts.seconds * 1000).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+        });
+    };
+
+    const formatPhone = (phone) => {
+        if (!phone) return "No phone";
+        return `+91 ${phone.slice(0, 5)} ${phone.slice(5)}`;
+    };
 
     return (
         <div className="min-h-screen grid-bg font-[Nunito] relative overflow-hidden">
@@ -51,50 +67,68 @@ export default function VisitorHistory() {
                     Visitor History
                 </h1>
 
-                {visitors.length === 0 ? (
-                    <p className="text-gray-500 text-center">
-                        No visitor history available.
-                    </p>
-                ) : (
-                    <div className="space-y-4">
-                        {visitors.map((visitor) => (
-                            <div
-                                key={visitor.id}
-                                className="bg-white/70 backdrop-blur p-4 rounded-xl shadow-sm flex justify-between items-center"
-                            >
-                                <div className="flex gap-4">
-                                    <div>
-                                        <img
-                                            src={visitor.img}
-                                            className="w-[50px] object-contain cursor-pointer hover:scale-105 transition"
-                                            onClick={() => setSelectedImage(visitor.img)}
-                                        />
+                {loading ? (
+                    <p className="text-center">Loading...</p>
+                )
+                    : visitors.length > 0 ? (
+                        <div className="space-y-4">
+                            {visitors.map((visitor) => {
+
+                                const statusText = visitor.entered
+                                    ? "Inside"
+                                    : visitor.status === "APPROVED"
+                                        ? "Approved"
+                                        : visitor.status === "REJECTED"
+                                            ? "Rejected"
+                                            : "Pending";
+
+                                return (
+                                    <div
+                                        key={visitor.id}
+                                        className="bg-white/70 backdrop-blur p-4 rounded-xl shadow-sm flex justify-between items-center"
+                                    >
+                                        <div className="flex gap-4">
+                                            <div>
+                                                <img
+                                                    src={visitor.selfieUrl || "/user.png"}
+                                                    className="w-[50px] rounded-2xl object-contain cursor-pointer hover:scale-105 transition"
+                                                    onClick={() => setSelectedImage(visitor.selfieUrl)}
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <p className="font-semibold text-gray-800">
+                                                    {visitor.name} • {getDate(visitor.visitTimeTs)}
+                                                </p>
+
+                                                <p className="text-sm text-gray-500">
+                                                    {formatPhone(visitor.phone)} • {visitor.purpose} •{" "}
+                                                    {getTime(visitor.visitTimeTs)} - {getTime(visitor.expiresAt)}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <span
+                                            className={`text-xs px-3 py-1 ml-2 rounded-full font-medium text-center
+                        ${statusText === "Inside" || statusText === "Approved"
+                                                    ? "bg-green-100 text-green-700"
+                                                    : statusText === "Rejected"
+                                                        ? "bg-red-100 text-red-600"
+                                                        : "bg-yellow-100 text-yellow-600"
+                                                }
+                    `}
+                                        >
+                                            {statusText}
+                                        </span>
                                     </div>
-                                    <div>
-                                        <p className="font-semibold text-gray-800">
-                                            {visitor.name} • {visitor.date}
-                                        </p>
-                                        <p className="text-sm text-gray-500">
-                                            {visitor.code} {visitor.contact} • {visitor.purpose} • {visitor.intime} - {visitor.outime}
-                                        </p>
-                                    </div>
-                                </div>
-                                <span
-                                    className={`text-xs px-3 py-1 ml-2 rounded-full font-medium text-center
-              ${visitor.status === "Inside"
-                                            ? "bg-green-100 text-green-700"
-                                            : visitor.status === "Approved"
-                                                ? "bg-green-100 text-green-700"
-                                                : "bg-red-100 text-red-600"
-                                        }
-            `}
-                                >
-                                    {visitor.status}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                                );
+                            })}
+                        </div>
+                    ) : (
+                        <p className="text-gray-500 text-center">
+                            No visitor history available.
+                        </p>
+                    )}
             </div>
             {selectedImage && (
                 <div

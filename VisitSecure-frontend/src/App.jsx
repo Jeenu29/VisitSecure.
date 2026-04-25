@@ -14,7 +14,7 @@ function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-      <Route path="/pass/:passId" element={<ProtectedRoute><Pass /></ProtectedRoute>} />
+      <Route path="/pass/:visitCode" element={<Pass />} />
       <Route path="/pass" element={<RequestPass />} />
       <Route path='/history' element={<ProtectedRoute><VisitorHistory /></ProtectedRoute>} />
     </Routes>

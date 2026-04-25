@@ -62,7 +62,7 @@ export default function LandingPage() {
         },
         {
             title: "Time-Bound Passes",
-            text: "QR passes expire automatically after the visit.",
+            text: "Passes expire automatically after the visit.",
             color: "#bdd2999f",
             textcolor: "#4d7a00ff",
         },
