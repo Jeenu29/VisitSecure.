@@ -24,10 +24,6 @@ public class VisitorController {
         DocumentSnapshot doc = db.collection("visitors").document(id).get().get();
         return doc.toObject(Visitor.class);
     }
-    @GetMapping("/today")
-    public List<Visitor> todayVisitors(@RequestParam String hostCode) throws Exception {
-        return visitorService.getTodayVisitors(hostCode);
-    }
 
     @GetMapping("/approve")
     public String approve(@RequestParam String id) throws Exception {
@@ -45,7 +41,6 @@ public class VisitorController {
                 + "</h2>";
     }
 
-
     @Autowired
     private VisitorService visitorService;
 
@@ -53,6 +48,11 @@ public class VisitorController {
     public Visitor create(@RequestBody Visitor visitor) throws Exception {
         visitorService.createVisitor(visitor);
         return visitor;
+    }
+
+    @GetMapping("/today")
+    public List<Visitor> todayVisitors(@RequestParam String hostCode) throws Exception {
+        return visitorService.getTodayVisitors(hostCode);
     }
 
     @GetMapping("/history")

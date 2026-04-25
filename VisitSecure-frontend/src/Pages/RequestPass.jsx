@@ -54,6 +54,7 @@ export default function Pass() {
                 body: JSON.stringify({
                     name,
                     email,
+                    phone,
                     purpose,
                     hostCode: hostCode.trim().toUpperCase(),
                     visitTime,
@@ -233,6 +234,7 @@ export default function Pass() {
                                         className="rounded-lg w-full max-w-sm"
                                     />
                                     <button
+                                        type="button"
                                         onClick={capture}
                                         className="mt-3 px-4 py-2 bg-blue-500 text-white rounded"
                                     >
@@ -243,6 +245,7 @@ export default function Pass() {
                                 <>
                                     <img src={selfie} alt="selfie" className="rounded-lg w-48" />
                                     <button
+                                        type="button"
                                         onClick={() => setSelfie(null)}
                                         className="mt-3 px-4 py-2 bg-gray-500 text-white rounded"
                                     >
@@ -253,6 +256,7 @@ export default function Pass() {
                         </div>
                         <button
                             type="submit"
+                            disabled={!selfie}
                             className="bg-[#9673d2] text-white px-6 py-3 rounded-full hover:scale-105 transition"
                         >
                             Submit Request

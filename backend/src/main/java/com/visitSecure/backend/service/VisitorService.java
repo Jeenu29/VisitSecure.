@@ -56,7 +56,7 @@ public class VisitorService {
         visitor.setStatus("PENDING");
         visitor.setCreatedAt(Timestamp.now());
 
-        if (visitor.getVisitTime() != null) {
+        if (visitor.getVisitTime() != null && !visitor.getVisitTime().isEmpty()) {
 
             LocalDateTime ldt = LocalDateTime.parse(visitor.getVisitTime());
 
@@ -66,9 +66,10 @@ public class VisitorService {
             );
 
             visitor.setVisitTimeTs(ts);
-        }
 
-        visitor.setVisitTime(null); // 🔥 REMOVE string before saving
+        } else {
+            visitor.setVisitTimeTs(Timestamp.now()); // fallback
+        }
 
         if (visitor.getSelfie() != null && !visitor.getSelfie().isEmpty()) {
             String selfieUrl = uploadSelfie(visitor.getSelfie());
@@ -175,36 +176,32 @@ public class VisitorService {
 
         Firestore db = FirestoreClient.getFirestore();
 
-        String normalizedCode = hostCode.trim().toUpperCase(); // 🔥 important
+        String normalizedCode = hostCode.trim().toUpperCase();
 
         LocalDate today = LocalDate.now(ZoneId.systemDefault());
 
-        // 🔥 Filter at DB level first (better performance)
-        ApiFuture<QuerySnapshot> future = db.collection("visitors")
-                .whereEqualTo("hostCode", normalizedCode)
-                .get();
+        Timestamp startOfDay = Timestamp.ofTimeSecondsAndNanos(
+                today.atStartOfDay(ZoneId.systemDefault()).toEpochSecond(),
+                0
+        );
 
-        return future.get().getDocuments()
+        Timestamp nextDayStart = Timestamp.ofTimeSecondsAndNanos(
+                today.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toEpochSecond(),
+                0
+        );
+
+        Query query = db.collection("visitors")
+                .whereEqualTo("hostCode", normalizedCode)
+                .whereGreaterThanOrEqualTo("visitTimeTs", startOfDay)
+                .whereLessThan("visitTimeTs", nextDayStart); // 🔥 FIX
+
+        QuerySnapshot snapshot = query.get().get();
+
+        System.out.println("🔥 TODAY COUNT: " + snapshot.size());
+
+        return snapshot.getDocuments()
                 .stream()
                 .map(doc -> doc.toObject(Visitor.class))
-                .filter(v -> {
-
-                    if (v.getVisitTimeTs() == null) return false;
-
-                    try {
-                        Timestamp ts = v.getVisitTimeTs();
-
-                        LocalDate visitDate = ts.toDate()
-                                .toInstant()
-                                .atZone(ZoneId.systemDefault())
-                                .toLocalDate();
-
-                        return visitDate.equals(today);
-
-                    } catch (Exception e) {
-                        return false;
-                    }
-                })
                 .collect(Collectors.toList());
     }
 

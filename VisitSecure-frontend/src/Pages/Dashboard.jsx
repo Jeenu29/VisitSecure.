@@ -37,8 +37,8 @@ export default function Dashboard() {
 
     const fetchTodayVisitors = async () => {
         try {
-            const hostCode = localStorage.getItem("hostCode");
-            const res = await (`http://localhost:8080/api/visitor/today?hostCode=${hostCode}`);;
+            const hostCode = localStorage.getItem("hostCode")?.trim().toUpperCase();
+            const res = await fetch(`http://localhost:8080/api/visitor/today?hostCode=${hostCode}`);
             const data = await res.json();
 
             setVisitors(data);
