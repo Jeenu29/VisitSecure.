@@ -78,6 +78,17 @@ public class VisitorService {
 
         visitor.setSelfie(null);
 
+        String token = UUID.randomUUID().toString();
+
+        visitor.setActionToken(token);
+
+        Timestamp expiry = Timestamp.ofTimeSecondsAndNanos(
+                Timestamp.now().getSeconds() + (24 * 3600),
+                0
+        );
+
+        visitor.setTokenExpiry(expiry);
+
         db.collection("visitors").document(id).set(visitor).get();
 
         emailService.sendApprovalEmail(visitor, hostEmail);
@@ -116,7 +127,7 @@ public class VisitorService {
         return uploadResult.get("secure_url").toString();
     }
 
-    public String approveVisitor(String id) throws Exception {
+    public String approveVisitor(String id, String token) throws Exception {
 
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference ref = db.collection("visitors").document(id);
@@ -150,24 +161,73 @@ public class VisitorService {
                 0
         );
 
+        if (!"PENDING".equals(visitor.getStatus())) {
+            return "This request has already been processed.";
+        }
+
+        if (visitor.getActionToken() == null ||
+                !visitor.getActionToken().equals(token)) {
+            return "Invalid or tampered link.";
+        }
+
+        if (visitor.getTokenExpiry() == null ||
+                visitor.getTokenExpiry().getSeconds() < now.getSeconds()) {
+            return "This approval link has expired.";
+        }
+
         Map<String, Object> update = new HashMap<>();
         update.put("status", "APPROVED");
         update.put("visitCode", visitCode);
         update.put("approvedAt", now);
         update.put("expiresAt", expiry);
+        update.put("actionToken", null);
+        update.put("tokenExpiry", null);
 
         ref.update(update);
 
         return visitCode;
     }
 
-    public String rejectVisitor(String id) throws Exception {
+    public String rejectVisitor(String id, String token) throws Exception {
 
         Firestore db = FirestoreClient.getFirestore();
+        DocumentReference ref = db.collection("visitors").document(id);
+
+        DocumentSnapshot doc = ref.get().get();
+
+        if (!doc.exists()) {
+            throw new Exception("Visitor not found");
+        }
 
         db.collection("visitors")
                 .document(id)
                 .update("status", "REJECTED");
+
+        Visitor visitor = doc.toObject(Visitor.class);
+
+        if (!"PENDING".equals(visitor.getStatus())) {
+            return "This request has already been processed.";
+        }
+
+        if (visitor.getActionToken() == null ||
+                !visitor.getActionToken().equals(token)) {
+            return "Invalid or tampered link.";
+        }
+
+        Timestamp now = Timestamp.now();
+        if (visitor.getTokenExpiry() == null ||
+                visitor.getTokenExpiry().getSeconds() < now.getSeconds()) {
+            return "This link has expired.";
+        }
+
+        Map<String, Object> update = new HashMap<>();
+        update.put("status", "REJECTED");
+
+        // 🔥 invalidate token
+        update.put("actionToken", null);
+        update.put("tokenExpiry", null);
+
+        ref.update(update);
 
         return "Rejected";
     }

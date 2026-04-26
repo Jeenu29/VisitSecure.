@@ -15,8 +15,11 @@ public class EmailService {
 
     public void sendApprovalEmail(Visitor visitor, String hostEmail) throws Exception {
 
-        String approveLink = "http://localhost:8080/api/visitor/approve?id=" + visitor.getId();
-        String rejectLink = "http://localhost:8080/api/visitor/reject?id=" + visitor.getId();
+        String approveLink = "http://localhost:8080/api/visitor/approve?id="
+                + visitor.getId() + "&token=" + visitor.getActionToken();
+
+        String rejectLink = "http://localhost:8080/api/visitor/reject?id="
+                + visitor.getId() + "&token=" + visitor.getActionToken();
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -31,7 +34,7 @@ public class EmailService {
                         + "<div style='max-width:600px; margin:auto; background:white; border-radius:12px; overflow:hidden; box-shadow:0 10px 25px rgba(0,0,0,0.1);'>"
 
                         // Header
-                        + "<div style='background:#6366f1; padding:20px; text-align:center; color:white;'>"
+                        + "<div style='background:#ccaae6; padding:20px; text-align:center; color:white;'>"
                         + "<h2 style='margin:0;'>🚪 VisitSecure</h2>"
                         + "<p style='margin:5px 0 0;'>Visitor Approval Required</p>"
                         + "</div>"

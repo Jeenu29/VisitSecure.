@@ -33,4 +33,7 @@ public class Visitor {
     private Integer durationHours;
 
     private Boolean entered; // optional but useful
+
+    private String actionToken;
+    private Timestamp tokenExpiry;
 }

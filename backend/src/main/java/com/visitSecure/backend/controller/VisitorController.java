@@ -26,19 +26,15 @@ public class VisitorController {
     }
 
     @GetMapping("/approve")
-    public String approve(@RequestParam String id) throws Exception {
-        visitorService.approveVisitor(id);
-        return "<h2 style='font-family:sans-serif; text-align:center; margin-top:50px;'>"
-                + "Visitor Approved Successfully"
-                + "</h2>";
+    public String approve(@RequestParam String id,
+                          @RequestParam String token) throws Exception {
+        return visitorService.approveVisitor(id, token);
     }
 
     @GetMapping("/reject")
-    public String reject(@RequestParam String id) throws Exception {
-        visitorService.rejectVisitor(id);
-        return "<h2 style='font-family:sans-serif; text-align:center; margin-top:50px;'>"
-                + "Visitor Rejected Successfully"
-                + "</h2>";
+    public String reject(@RequestParam String id,
+                         @RequestParam String token) throws Exception {
+        return visitorService.rejectVisitor(id, token);
     }
 
     @Autowired
