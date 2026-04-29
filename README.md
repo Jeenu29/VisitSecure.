@@ -54,6 +54,4 @@ The pass automatically expires after a fixed time (e.g. 6 hours).
 
 ⏱️ Time-bound visitor passes
 
-📱 Clean, modern UI
-
 ⚙️ Organization-agnostic (universities, offices, campuses)
