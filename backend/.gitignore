@@ -35,3 +35,4 @@ build/
 
 serviceAccountKey.json
 backend/src/main/resources/serviceAccountKey.json
+.env

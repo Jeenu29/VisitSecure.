@@ -14,18 +14,13 @@ export default function Pass() {
 
     const parseTimestamp = (ts) => {
         if (!ts) return null;
-
-        // Firestore Web SDK format
         if (ts._seconds) {
             return new Date(ts._seconds * 1000);
         }
-
-        // Firestore Admin SDK (Java) format
         if (ts.seconds) {
             return new Date(ts.seconds * 1000);
         }
 
-        // String fallback
         if (typeof ts === "string") {
             const cleaned = ts
                 .replace(" at ", " ")

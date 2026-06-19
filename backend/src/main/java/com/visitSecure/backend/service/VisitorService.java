@@ -1,6 +1,5 @@
 package com.visitSecure.backend.service;
 
-import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
@@ -94,21 +93,6 @@ public class VisitorService {
         emailService.sendApprovalEmail(visitor, hostEmail);
 
         return visitor;
-    }
-
-    public List<Visitor> getVisitorsByHost(String hostCode) throws Exception {
-
-        Firestore db = FirestoreClient.getFirestore();
-
-        Query query = db.collection("visitors")
-                .whereEqualTo("hostCode", hostCode);
-
-        QuerySnapshot snapshot = query.get().get();
-
-        return snapshot.getDocuments()
-                .stream()
-                .map(doc -> doc.toObject(Visitor.class))
-                .collect(Collectors.toList());
     }
 
     @Autowired
@@ -223,7 +207,6 @@ public class VisitorService {
         Map<String, Object> update = new HashMap<>();
         update.put("status", "REJECTED");
 
-        // 🔥 invalidate token
         update.put("actionToken", null);
         update.put("tokenExpiry", null);
 
@@ -253,11 +236,9 @@ public class VisitorService {
         Query query = db.collection("visitors")
                 .whereEqualTo("hostCode", normalizedCode)
                 .whereGreaterThanOrEqualTo("visitTimeTs", startOfDay)
-                .whereLessThan("visitTimeTs", nextDayStart); // 🔥 FIX
+                .whereLessThan("visitTimeTs", nextDayStart);
 
         QuerySnapshot snapshot = query.get().get();
-
-        System.out.println("🔥 TODAY COUNT: " + snapshot.size());
 
         return snapshot.getDocuments()
                 .stream()
@@ -265,13 +246,16 @@ public class VisitorService {
                 .collect(Collectors.toList());
     }
 
-    public List<Visitor> getAllVisitors() throws Exception {
+    public List<Visitor> getVisitorsByHost(String hostCode) throws Exception {
 
         Firestore db = FirestoreClient.getFirestore();
 
-        ApiFuture<QuerySnapshot> future = db.collection("visitors").get();
+        Query query = db.collection("visitors")
+                .whereEqualTo("hostCode", hostCode);
 
-        return future.get().getDocuments()
+        QuerySnapshot snapshot = query.get().get();
+
+        return snapshot.getDocuments()
                 .stream()
                 .map(doc -> doc.toObject(Visitor.class))
                 .collect(Collectors.toList());
