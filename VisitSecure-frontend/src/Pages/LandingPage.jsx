@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 import { useEffect, useState, useRef } from "react";
 import Login from "../components/Login";
 import Signup from "../components/Signup";
-import AnimatedText from "../components/animatedtext";
+import AnimatedText from "../components/AnimatedText";
 import Card1 from "../components/Card1";
 import { useNavigate } from "react-router-dom";
 import Card2 from "../components/Card2";
