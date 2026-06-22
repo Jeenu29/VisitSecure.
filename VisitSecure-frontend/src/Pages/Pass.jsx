@@ -48,8 +48,9 @@ export default function Pass() {
     const fetchPass = async () => {
         try {
             console.log("FETCH STARTED");
+            const API_URL = import.meta.env.VITE_API_URL;
             const res = await fetch(
-                `http://localhost:8080/api/visitor/pass?visitCode=${visitCode}`
+                `${API_URL}/api/visitor/pass?visitCode=${visitCode}`
             );
             console.log("visitCode:", visitCode);
 

@@ -59,8 +59,9 @@ export default function Login({ onClose }) {
             const token = await userCred.user.getIdToken();
 
             localStorage.setItem("token", token);
+            const API_URL = import.meta.env.VITE_API_URL;
 
-            const res = await fetch("http://localhost:8080/api/auth/register", {
+            const res = await fetch(`${API_URL}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`

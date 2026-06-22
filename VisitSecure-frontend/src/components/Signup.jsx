@@ -58,7 +58,8 @@ export default function Signup({ onClose }) {
             const token = await userCred.user.getIdToken(true);
 
             localStorage.setItem("token", token);
-            const res = await fetch("http://localhost:8080/api/auth/register", {
+            const API_URL = import.meta.env.VITE_API_URL;
+            const res = await fetch(`${API_URL}/api/auth/register`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`

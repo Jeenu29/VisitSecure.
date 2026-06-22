@@ -19,7 +19,8 @@ export default function VisitorHistory() {
     const fetchVisitors = async () => {
         try {
             const hostCode = localStorage.getItem("hostCode");
-            const res = await fetch(`http://localhost:8080/api/visitor/history?hostCode=${hostCode}`);
+            const API_URL = import.meta.env.VITE_API_URL;
+            const res = await fetch(`${API_URL}/api/visitor/history?hostCode=${hostCode}`);
             const data = await res.json();
 
             setVisitors(data);
