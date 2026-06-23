@@ -62,10 +62,10 @@ public class VisitorService {
             visitor.setVisitTimeTs(Timestamp.now()); // fallback
         }
 
-//        if (visitor.getSelfie() != null && !visitor.getSelfie().isEmpty()) {
-//            String selfieUrl = uploadSelfie(visitor.getSelfie());
-//            visitor.setSelfieUrl(selfieUrl);
-//        }
+        if (visitor.getSelfie() != null && !visitor.getSelfie().isEmpty()) {
+            String selfieUrl = uploadSelfie(visitor.getSelfie());
+            visitor.setSelfieUrl(selfieUrl);
+        }
 
         visitor.setSelfie(null);
 
@@ -82,7 +82,7 @@ public class VisitorService {
 
         db.collection("visitors").document(id).set(visitor).get();
 
-        emailService.sendApprovalEmail(visitor, hostEmail);
+//        emailService.sendApprovalEmail(visitor, hostEmail);
 
         return visitor;
     }
