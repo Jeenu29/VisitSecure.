@@ -39,7 +39,6 @@ public class VisitorController {
     @PostMapping("/request")
     public Visitor create(@RequestBody Visitor visitor) throws Exception {
         visitorService.createVisitor(visitor);
-        System.out.println("========== REQUEST RECEIVED ==========");
         return visitor;
     }
 
