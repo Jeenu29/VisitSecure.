@@ -38,8 +38,15 @@ public class VisitorController {
 
     @PostMapping("/request")
     public Visitor create(@RequestBody Visitor visitor) throws Exception {
+        System.out.println("Request recieved");
         visitorService.createVisitor(visitor);
         return visitor;
+    }
+
+    @GetMapping("/ping")
+    public String ping() {
+        System.out.println("PING HIT");
+        return "pong";
     }
 
     @GetMapping("/today")
