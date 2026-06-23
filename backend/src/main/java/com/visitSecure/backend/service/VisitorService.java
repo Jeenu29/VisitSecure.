@@ -25,20 +25,12 @@ public class VisitorService {
         String hostCode = visitor.getHostCode().trim().toUpperCase();
         visitor.setHostCode(hostCode);
 
-        System.out.println("RAW HOST CODE: [" + hostCode + "]");
-        System.out.println("AFTER TRIM+UPPER: [" + hostCode.trim().toUpperCase() + "]");
-
         Firestore db = FirestoreClient.getFirestore();
-
-        System.out.println("HOST CODE RECEIVED: " + hostCode);
 
         DocumentSnapshot doc = db.collection("hostCodes")
                 .document(hostCode)
                 .get()
                 .get();
-
-        System.out.println("LOOKING FOR: " + hostCode);
-        System.out.println("DOC EXISTS: " + doc.exists());
 
         if (!doc.exists()) {
             throw new Exception("Invalid Host Code");
@@ -70,10 +62,10 @@ public class VisitorService {
             visitor.setVisitTimeTs(Timestamp.now()); // fallback
         }
 
-        if (visitor.getSelfie() != null && !visitor.getSelfie().isEmpty()) {
-            String selfieUrl = uploadSelfie(visitor.getSelfie());
-            visitor.setSelfieUrl(selfieUrl);
-        }
+//        if (visitor.getSelfie() != null && !visitor.getSelfie().isEmpty()) {
+//            String selfieUrl = uploadSelfie(visitor.getSelfie());
+//            visitor.setSelfieUrl(selfieUrl);
+//        }
 
         visitor.setSelfie(null);
 
