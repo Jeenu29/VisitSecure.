@@ -43,10 +43,10 @@ public class VisitorController {
         return visitor;
     }
 
-    @GetMapping("/ping")
-    public String ping() {
-        System.out.println("PING HIT");
-        return "pong";
+    @PostMapping("/test-post")
+    public String testPost() {
+        System.out.println("TEST POST HIT");
+        return "OK";
     }
 
     @GetMapping("/today")
