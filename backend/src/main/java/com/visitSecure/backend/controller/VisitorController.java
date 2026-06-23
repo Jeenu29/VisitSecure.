@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/visitor")
-@CrossOrigin(origins = "${FRONTEND_URL}")
 public class VisitorController {
     @GetMapping("/status")
     public Visitor getStatus(@RequestParam String id) throws Exception {
