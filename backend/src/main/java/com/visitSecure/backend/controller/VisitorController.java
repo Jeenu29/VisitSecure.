@@ -7,6 +7,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import com.visitSecure.backend.model.Visitor;
 import com.visitSecure.backend.service.VisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,10 +38,16 @@ public class VisitorController {
     private VisitorService visitorService;
 
     @PostMapping("/request")
-    public Visitor create(@RequestBody Visitor visitor) throws Exception {
-        System.out.println("Request recieved");
-        visitorService.createVisitor(visitor);
-        return visitor;
+    public ResponseEntity<?> create(@RequestBody Visitor visitor) {
+        try {
+            System.out.println("REQUEST RECEIVED");
+            visitorService.createVisitor(visitor);
+            return ResponseEntity.ok(visitor);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500)
+                    .body(e.getMessage());
+        }
     }
 
     @PostMapping("/test-post")
