@@ -46,7 +46,8 @@ export default function Pass() {
         setLoading(true);
 
         try {
-            const res = await fetch("http://localhost:8080/api/visitor/request", {
+            const API_URL = import.meta.env.VITE_API_URL;
+            const res = await fetch(`${API_URL}/api/visitor/request`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

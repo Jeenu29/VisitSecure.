@@ -38,7 +38,8 @@ export default function Dashboard() {
     const fetchTodayVisitors = async () => {
         try {
             const hostCode = localStorage.getItem("hostCode")?.trim().toUpperCase();
-            const res = await fetch(`http://localhost:8080/api/visitor/today?hostCode=${hostCode}`);
+            const API_URL = import.meta.env.VITE_API_URL;
+            const res = await fetch(`${API_URL}/api/visitor/today?hostCode=${hostCode}`);
             const data = await res.json();
 
             setVisitors(data);
