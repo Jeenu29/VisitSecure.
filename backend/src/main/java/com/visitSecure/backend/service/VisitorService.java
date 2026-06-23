@@ -82,7 +82,7 @@ public class VisitorService {
 
         db.collection("visitors").document(id).set(visitor).get();
 
-//        emailService.sendApprovalEmail(visitor, hostEmail);
+        emailService.sendApprovalEmail(visitor, hostEmail);
 
         return visitor;
     }

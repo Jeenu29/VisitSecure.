@@ -2,6 +2,7 @@ package com.visitSecure.backend.service;
 
 import com.visitSecure.backend.model.Visitor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import jakarta.mail.internet.MimeMessage;
@@ -13,13 +14,22 @@ public class EmailService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Value("${BACKEND_URL}")
+    private String backendUrl;
+
     public void sendApprovalEmail(Visitor visitor, String hostEmail) throws Exception {
 
-        String approveLink = "http://localhost:8080/api/visitor/approve?id="
-                + visitor.getId() + "&token=" + visitor.getActionToken();
+        String approveLink =
+                backendUrl + "/api/visitor/approve?id="
+                        + visitor.getId()
+                        + "&token="
+                        + visitor.getActionToken();
 
-        String rejectLink = "http://localhost:8080/api/visitor/reject?id="
-                + visitor.getId() + "&token=" + visitor.getActionToken();
+        String rejectLink =
+                backendUrl + "/api/visitor/reject?id="
+                        + visitor.getId()
+                        + "&token="
+                        + visitor.getActionToken();
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
