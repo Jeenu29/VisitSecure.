@@ -32,7 +32,6 @@ export default function Login({ onClose }) {
             await sendPasswordResetEmail(auth, email);
             setResetMsg("Password reset link sent to your email");
         } catch (error) {
-            console.error(error);
 
             if (error.code === "auth/user-not-found") {
                 setResetError("No account found with this email");
@@ -75,7 +74,6 @@ export default function Login({ onClose }) {
             onClose();
 
         } catch (error) {
-            console.error(error);
 
             if (error.code === "auth/user-not-found") {
                 setError("No account found with this email");

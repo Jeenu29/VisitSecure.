@@ -72,12 +72,8 @@ export default function Pass() {
             if (res.ok) {
                 setVisitorId(data.id);
                 setStatus("PENDING");
-            } else {
-                console.log("Error: " + data);
             }
 
-        } catch (error) {
-            console.error("Network error:", error);
         }
         finally {
             setLoading(false);

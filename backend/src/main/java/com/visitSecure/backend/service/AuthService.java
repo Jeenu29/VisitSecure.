@@ -55,7 +55,6 @@ public class AuthService {
                 .document(hostCode)
                 .set(hostData);
 
-        System.out.println("🔥 SAVING HOST: " + email);
         return hostCode;
     }
 

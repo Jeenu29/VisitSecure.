@@ -105,9 +105,5 @@ public class EmailService {
                         request,
                         String.class
                 );
-
-        System.out.println("EMAIL RESPONSE:");
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
     }
 }

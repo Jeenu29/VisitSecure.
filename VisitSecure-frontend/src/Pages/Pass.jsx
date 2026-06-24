@@ -41,18 +41,15 @@ export default function Pass() {
             return;
         }
 
-        console.log("visitCode:", visitCode);
         fetchPass();
     }, [visitCode]);
 
     const fetchPass = async () => {
         try {
-            console.log("FETCH STARTED");
             const API_URL = import.meta.env.VITE_API_URL;
             const res = await fetch(
                 `${API_URL}/api/visitor/pass?visitCode=${visitCode}`
             );
-            console.log("visitCode:", visitCode);
 
             if (!res.ok) {
                 setPass(null);
@@ -66,10 +63,6 @@ export default function Pass() {
             const now = new Date();
             const vs = parseTimestamp(data.visitTimeTs);
             const exp = parseTimestamp(data.expiresAt);
-
-            console.log("NOW:", now);
-            console.log("VISIT START:", vs);
-            console.log("EXPIRES:", exp);
 
             setVisitStart(vs);
 
@@ -89,10 +82,9 @@ export default function Pass() {
             setTimeLeft(secondsLeft);
 
         } catch (err) {
-            console.error(err);
             setPass(null);
         } finally {
-            setLoading(false); // 🔥 VERY IMPORTANT
+            setLoading(false);
         }
     };
 

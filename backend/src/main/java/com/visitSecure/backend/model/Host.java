@@ -8,7 +8,6 @@ public class Host {
     private String name;
     private String email;
 
-    // 🔥 OPTIONAL but useful
     private String hostCode;
 
     public Host() {}

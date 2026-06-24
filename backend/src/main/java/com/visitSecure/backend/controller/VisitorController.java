@@ -40,7 +40,6 @@ public class VisitorController {
     @PostMapping("/request")
     public ResponseEntity<?> create(@RequestBody Visitor visitor) {
         try {
-            System.out.println("REQUEST RECEIVED");
             visitorService.createVisitor(visitor);
             return ResponseEntity.ok(visitor);
         } catch (Exception e) {

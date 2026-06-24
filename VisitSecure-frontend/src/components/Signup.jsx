@@ -73,7 +73,6 @@ export default function Signup({ onClose }) {
             onClose();
 
         } catch (error) {
-            console.error(error);
             if (error.code === "auth/email-already-in-use") {
                 setError("This email is already registered");
             } else if (error.code === "auth/invalid-email") {

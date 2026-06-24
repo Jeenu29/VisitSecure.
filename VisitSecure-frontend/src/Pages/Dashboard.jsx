@@ -48,8 +48,6 @@ export default function Dashboard() {
                 }
             );
             const data = await res.json();
-            console.log("TOKEN:", localStorage.getItem("token"));
-            console.log("HOST CODE:", localStorage.getItem("hostCode"));
 
             setVisitors(data);
             setLoading(false);
