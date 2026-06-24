@@ -1,148 +1,130 @@
-🚪 VisitSecure
+VisitSecure 🚪
 
-Smart Visitor Management System
+VisitSecure is a smart visitor management system that replaces traditional paper-based visitor logs with a secure digital workflow. Visitors can request access online, hosts can approve or reject requests, and approved visitors receive a time-limited digital pass for entry verification.
 
-VisitSecure is a secure and scalable visitor management platform that replaces traditional manual entry systems with a fully digital, automated workflow. It enhances security, improves efficiency, and delivers a seamless experience for both visitors and hosts.
+✨ Features
 
-✨ Key Highlights
+Visitor Side
 
-🔐 End-to-End Digital Workflow – Eliminates manual registers and paperwork
+• Submit visitor requests online
+• Upload selfie for identity verification
+• Enter host code provided by the host
+• Track approval status in real-time
+• Receive a digital visitor pass upon approval
+• View pass validity and expiration status
 
-📧 Email-Based Approval System – Hosts approve/reject requests instantly
+Host Side
 
-🪪 Time-Bound Digital Passes – Automatically expire for enhanced security
+• Secure authentication using Firebase Authentication
+• Unique host code generation
+• Approve or reject visitor requests
+• View visitors scheduled for today
+• Access complete visitor history
+• Monitor visitor status and visit details
 
-📊 Real-Time Tracking Dashboard – Monitor visitor status dynamically
+Security Features
 
-🧠 Smart Filtering – View visitors specific to logged-in hosts
+• Firebase Authentication for host login
+• Protected API endpoints using Spring Security
+• Time-limited visitor passes
+• Unique approval tokens
+• Visitor selfie verification
+• CORS protection and backend authorization
 
-☁️ Cloud-Based Storage – Secure handling of images and visitor data
+🏗️ System Architecture
 
+Frontend → React + Vite + Tailwind CSS
 
-🧩 Problem It Solves
+Backend → Spring Boot
 
-Traditional visitor systems are:
+Database → Firebase Firestore
 
-❌ Manual and time-consuming
+Image Storage → Cloudinary
 
-❌ Prone to security loopholes
+Authentication → Firebase Authentication
 
-❌ Difficult to track and manage
+Email Service → Resend API
 
-VisitSecure solves this by providing a digital, secure, and automated alternative.
+Deployment:
 
-
-⚙️ System Workflow
-
-Visitor submits request with details and selfie
-
-Host receives email notification
-
-Host approves/rejects request
-
-Digital pass is generated upon approval
-
-Entry is verified and logged
-
-Access expires automatically after a fixed duration
-
+• Frontend: Vercel
+• Backend: Render
 
 🛠️ Tech Stack
 
-Layer	Technology
+Frontend
 
-Frontend	React (Vite), Tailwind CSS
+• React
+• React Router
+• Vite
+• Tailwind CSS
 
-Backend	Spring Boot
+Backend
 
-Database	Firebase Firestore
+• Java
+• Spring Boot
+• Spring Security
+• Firebase Admin SDK
 
-Media Storage	Cloudinary
+Cloud Services
 
-Auth/Logic	JWT, Email SMTP Integration
+• Firebase Firestore
+• Firebase Authentication
+• Cloudinary
+• Resend Email API
 
+🔄 Workflow
 
-🧪 Core Features
+1. Host logs in and receives a unique host code.
+2. Visitor enters the host code and submits a visit request.
+3. Visitor selfie is uploaded to Cloudinary.
+4. Request details are stored in Firestore.
+5. Host receives an approval email.
+6. Host approves or rejects the request.
+7. Upon approval, a digital pass is generated.
+8. Pass automatically expires after the configured duration.
 
-Visitor request system with image upload
+📸 Screens
 
-Host-based authentication and filtering
+Landing Page
 
-Real-time status updates (Pending / Approved / Rejected)
+Host login and project introduction.
 
-Secure cloud image storage
+Host Dashboard
 
-Time-based access control
+• Host Code
+• Today's Visitors
+• Visitor History
+• Visitor Request Management
 
-Clean and responsive UI
+Visitor Request Form
 
+• Personal Details
+• Visit Purpose
+• Visit Time
+• Selfie Upload
 
-🚀 Getting Started
+Digital Visitor Pass
 
-Clone Repository
+• Unique Visit Code
+• Visitor Details
+• Approval Status
+• Expiry Information
 
-git clone https://github.com/your-username/visitsecure.git
+🚀 Future Improvements
 
-cd visitsecure
+• QR Code based entry scanning
+• Guard verification dashboard
+• Real-time notifications
+• Multi-organization support
+• Analytics and visitor insights
+• Domain-based email approvals
+• Admin panel for organization management
 
-Run Frontend
+👨‍💻 Author
 
-cd frontend
+Jeenu Bishnoi
 
-npm install
+B.Tech Student | Full Stack Developer
 
-npm run dev
-
-Run Backend
-
-cd backend
-
-mvn spring-boot:run
-
-
-🔑 Configuration
-
-Set up the following:
-
-Firebase Firestore credentials
-
-Cloudinary API keys
-
-Email SMTP configuration
-
-JWT secret key
-
-
-🔒 Security Considerations
-
-Selfie verification for identity validation
-
-Host-controlled access approval
-
-Time-restricted visitor access
-
-Secure cloud storage for sensitive data
-
-
-📈 Future Scope
-
-QR/Barcode-based verification
-
-Face recognition integration
-
-Role-based admin panel
-
-Mobile application support
-
-Visitor analytics & insights
-
-
-💡 What Makes This Project Stand Out
-
-Combines full-stack development + cloud + real-time workflows
-
-Demonstrates system design thinking, not just UI
-
-Solves a real-world security and management problem
-
-Built with industry-relevant technologies (Spring Boot + React + Firebase)
+Focused on building secure, scalable, and user-friendly web applications.
