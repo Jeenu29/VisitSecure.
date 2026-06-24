@@ -20,7 +20,14 @@ export default function VisitorHistory() {
         try {
             const hostCode = localStorage.getItem("hostCode");
             const API_URL = import.meta.env.VITE_API_URL;
-            const res = await fetch(`${API_URL}/api/visitor/history?hostCode=${hostCode}`);
+            const token = localStorage.getItem("token");
+            const res = await fetch(`${API_URL}/api/visitor/history?hostCode=${hostCode}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
             const data = await res.json();
 
             setVisitors(data);

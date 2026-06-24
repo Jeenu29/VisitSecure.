@@ -39,7 +39,12 @@ export default function Dashboard() {
         try {
             const hostCode = localStorage.getItem("hostCode")?.trim().toUpperCase();
             const API_URL = import.meta.env.VITE_API_URL;
-            const res = await fetch(`${API_URL}/api/visitor/today?hostCode=${hostCode}`);
+            const res = await fetch(`${API_URL}/api/visitor/today?hostCode=${hostCode}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
             const data = await res.json();
 
             setVisitors(data);

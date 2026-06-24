@@ -50,12 +50,6 @@ public class VisitorController {
         }
     }
 
-    @PostMapping("/test-post")
-    public String testPost() {
-        System.out.println("TEST POST HIT");
-        return "OK";
-    }
-
     @GetMapping("/today")
     public List<Visitor> todayVisitors(@RequestParam String hostCode) throws Exception {
         return visitorService.getTodayVisitors(hostCode);

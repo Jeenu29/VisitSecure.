@@ -25,3 +25,4 @@ dist-ssr
 
 serviceAccountKey.json
 backend/src/main/resources/serviceAccountKey.json
+VisitSecure-frontend\src\firebase.js
