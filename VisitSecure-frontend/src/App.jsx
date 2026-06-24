@@ -5,18 +5,16 @@ import Dashboard from './Pages/Dashboard';
 import RequestPass from './Pages/RequestPass';
 import Pass from './Pages/Pass';
 import VisitorHistory from './Pages/VisitorHistory';
-import ProtectedRoute from './components/ProtectedRoute';
-
 
 function App() {
 
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/pass/:visitCode" element={<Pass />} />
       <Route path="/pass" element={<RequestPass />} />
-      <Route path='/history' element={<ProtectedRoute><VisitorHistory /></ProtectedRoute>} />
+      <Route path='/history' element={<VisitorHistory />} />
     </Routes>
   );
 }
