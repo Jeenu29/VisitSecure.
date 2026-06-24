@@ -6,97 +6,97 @@ VisitSecure is a smart visitor management system that replaces traditional paper
 
 Visitor Side
 
-• Submit visitor requests online
+    • Submit visitor requests online
 
-• Upload selfie for identity verification
+    • Upload selfie for identity verification
 
-• Enter host code provided by the host
+    • Enter host code provided by the host
 
-• Track approval status in real-time
+    • Track approval status in real-time
 
-• Receive a digital visitor pass upon approval
+    • Receive a digital visitor pass upon approval
 
-• View pass validity and expiration status
+    • View pass validity and expiration status
 
 Host Side
 
-• Secure authentication using Firebase Authentication
+    • Secure authentication using Firebase Authentication
 
-• Unique host code generation
+    • Unique host code generation
 
-• Approve or reject visitor requests
+    • Approve or reject visitor requests
 
-• View visitors scheduled for today
+    • View visitors scheduled for today
 
-• Access complete visitor history
+    • Access complete visitor history
 
-• Monitor visitor status and visit details
+    • Monitor visitor status and visit details
 
 Security Features
 
-• Firebase Authentication for host login
+    • Firebase Authentication for host login
 
-• Protected API endpoints using Spring Security
+    • Protected API endpoints using Spring Security
 
-• Time-limited visitor passes
+    • Time-limited visitor passes
 
-• Unique approval tokens
+    • Unique approval tokens
 
-• Visitor selfie verification
+    • Visitor selfie verification
 
-• CORS protection and backend authorization
+    • CORS protection and backend authorization
 
 🏗️ System Architecture
 
-Frontend → React + Vite + Tailwind CSS
+    Frontend → React + Vite + Tailwind CSS
 
-Backend → Spring Boot
+    Backend → Spring Boot
 
-Database → Firebase Firestore
+    Database → Firebase Firestore
 
-Image Storage → Cloudinary
+    Image Storage → Cloudinary
 
-Authentication → Firebase Authentication
+    Authentication → Firebase Authentication
 
-Email Service → Resend API
+    Email Service → Resend API
 
 Deployment:
 
-• Frontend: Vercel
+    • Frontend: Vercel
 
-• Backend: Render
+    • Backend: Render
 
 🛠️ Tech Stack
 
 Frontend
 
-• React
+    • React
 
-• React Router
+    • React Router
 
-• Vite
+    • Vite
 
-• Tailwind CSS
+    • Tailwind CSS
 
 Backend
 
-• Java
+    • Java
 
-• Spring Boot
+    • Spring Boot
 
-• Spring Security
+    • Spring Security
 
-• Firebase Admin SDK
+    • Firebase Admin SDK
 
 Cloud Services
 
-• Firebase Firestore
+    • Firebase Firestore
 
-• Firebase Authentication
+    • Firebase Authentication
 
-• Cloudinary
+    • Cloudinary
 
-• Resend Email API
+    • Resend Email API
 
 🔄 Workflow
 
