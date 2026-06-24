@@ -52,7 +52,7 @@ public class VisitorService {
             LocalDateTime ldt = LocalDateTime.parse(visitor.getVisitTime());
 
             Timestamp ts = Timestamp.ofTimeSecondsAndNanos(
-                    ldt.atZone(ZoneId.systemDefault()).toEpochSecond(),
+                    ldt.atZone(ZoneId.of("Asia/Kolkata")).toEpochSecond(),
                     0
             );
 
